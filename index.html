@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Cody Huls – Astrophysics-Inspired Full-Stack Engineer. Turning cosmic dust into production code."/>
+  <meta property="og:title" content="Cody Huls | Cosmic Engineer"/>
+  <meta property="og:description" content="Astrophysics-Inspired Full-Stack Engineer"/>
+  <meta property="og:type" content="website"/>
+  <title>Cody Huls | Cosmic Engineer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
+</head>
+<body>
+  <div id="particles"></div>
+  <canvas id="three-canvas"></canvas>
+
+  <nav class="navbar" aria-label="Main navigation">
+    <a href="#home" class="logo" aria-label="MewCode Home">
+      <div class="logo-icon"><i class="fas fa-cat"></i></div>
+      <span class="mew">MEW</span>CODE
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="nav-links">
+      <a href="#projects">PROJECTS</a>
+      <a href="#blog">BLOG</a>
+      <a href="#contact">CONTACT</a>
+    </div>
+    <div class="controls">
+      <button id="theme-toggle" class="toggle-btn" aria-label="Toggle theme">
+        Theme <span class="theme-diamond">◆</span>
+      </button>
+      <a href="resume.pdf" download class="resume-btn" aria-label="Download Resume">
+        <i class="fas fa-download"></i> Download Log
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero" aria-label="Hero">
+      <div class="hero-content">
+        <img src="assets/mew-hero.png" alt="Cosmic Mew holding a Monster Energy drink" class="floating-mew"
+          onerror="this.style.display='none'"/>
+        <h1 class="glitch" data-text="CODY HULS">CODY HULS</h1>
+        <p class="subtitle">Astrophysics-Inspired Full-Stack Engineer</p>
+        <p class="tagline">Turning cosmic dust into production code &bull; Powered by Ultra Punk Punch</p>
+        <a href="#projects" class="cta-btn">ENTER THE NEBULA →</a>
+      </div>
+    </section>
+
+    <section id="projects" class="section" aria-label="Projects">
+      <h2>ACTIVE MISSIONS</h2>
+      <div class="featured-missions" aria-label="Featured projects">
+        <div class="mission-card featured">
+          <h3>MEWCODE</h3>
+          <p>Open-source portfolio starter kit</p>
+          <a href="https://github.com/chuls5/mewcode" target="_blank" rel="noopener noreferrer">github.com/chuls5/mewcode</a>
+        </div>
+        <div class="mission-card featured">
+          <h3>COSMIC CMS</h3>
+          <p>Headless CMS with real-time editing</p>
+          <a href="https://github.com/chuls5/cosmic-cms" target="_blank" rel="noopener noreferrer">github.com/chuls5/cosmic-cms</a>
+        </div>
+        <div class="mission-card featured">
+          <h3>NEBULA ANALYTICS</h3>
+          <p>Data visualization platform</p>
+          <a href="https://github.com/chuls5/nebula-analytics" target="_blank" rel="noopener noreferrer">github.com/chuls5/nebula-analytics</a>
+        </div>
+      </div>
+
+      <h2 class="subsection-title">GITHUB REPOSITORIES</h2>
+      <div id="projects-grid" class="projects-grid" aria-live="polite" aria-label="GitHub repositories">
+        <div class="loading-state">
+          <div class="loading-spinner"></div>
+          <p>Scanning the cosmos for missions&hellip;</p>
+        </div>
+      </div>
+      <p class="last-updated" id="last-updated" aria-live="polite"></p>
+    </section>
+
+    <section id="blog" class="section" aria-label="Blog">
+      <h2>TRANSMISSION LOG</h2>
+      <div class="blog-grid">
+        <article class="blog-card">
+          <span class="blog-date">2026-05-01</span>
+          <h3>Building a Real-Time CMS with WebSockets</h3>
+          <p>How I built Cosmic CMS from scratch using Node.js and live socket connections.</p>
+          <a href="#" class="blog-link">Read Entry →</a>
+        </article>
+        <article class="blog-card">
+          <span class="blog-date">2026-04-15</span>
+          <h3>Three.js &amp; the Art of Cosmic UIs</h3>
+          <p>Using physics-based animations to create stunning space experiences in the browser.</p>
+          <a href="#" class="blog-link">Read Entry →</a>
+        </article>
+        <article class="blog-card">
+          <span class="blog-date">2026-03-28</span>
+          <h3>Astrophysics in Code: Simulating Gravity</h3>
+          <p>Translating orbital mechanics equations into interactive JavaScript simulations.</p>
+          <a href="#" class="blog-link">Read Entry →</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact" aria-label="Contact">
+      <h2>ESTABLISH COMMUNICATION</h2>
+      <p class="contact-tagline">Signal received from the edge of the universe? Transmit below.</p>
+      <div class="socials">
+        <a href="https://github.com/chuls5" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="mailto:your@email.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+        <a href="https://twitter.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Cody Huls &bull; Deployed from the Edge of the Universe</p>
+    <p class="footer-sub">Built with stardust, caffeine &amp; Three.js</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[
+  { "name": "cosmic-core",   "description": "Core utilities for cosmic calculations.",            "stargazers_count": 1200, "forks_count": 89,  "html_url": "https://github.com/chuls5/cosmic-core",   "language": "TypeScript"  },
+  { "name": "nebula-utils",  "description": "Core utilities for nebula formations.",              "stargazers_count": 128,  "forks_count": 34,  "html_url": "https://github.com/chuls5/nebula-utils",  "language": "JavaScript" },
+  { "name": "astro-nav",     "description": "Simulates galaxy formations and orbital mechanics.", "stargazers_count": 4500, "forks_count": 512, "html_url": "https://github.com/chuls5/astro-nav",     "language": "Python"      },
+  { "name": "galaxy-sim",    "description": "Simulates galaxy formation processes.",              "stargazers_count": 890,  "forks_count": 203, "html_url": "https://github.com/chuls5/galaxy-sim",    "language": "JavaScript" },
+  { "name": "pulsar-api",    "description": "High-performance REST API with cosmic conventions.", "stargazers_count": 340,  "forks_count": 67,  "html_url": "https://github.com/chuls5/pulsar-api",    "language": "Node.js"     },
+  { "name": "stardust-ui",   "description": "React component library with a space aesthetic.",   "stargazers_count": 720,  "forks_count": 145, "html_url": "https://github.com/chuls5/stardust-ui",   "language": "TypeScript"  }
+]
