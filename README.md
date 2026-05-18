@@ -6,25 +6,32 @@ A fully static, GitHub Pages–compatible developer portfolio with a deep-space 
 
 ## Live Demo
 
-> Deploy to GitHub Pages and update this link:  
-> `https://chuls5.github.io/cosmic-mew-portfolio`
+**[chuls5.github.io/cosmic-mew-portfolio](https://chuls5.github.io/cosmic-mew-portfolio)**
 
 ---
 
 ## Features
 
+- **Cosmic loading screen** — animated ✦ glyph with gradient progress bar, fades out on load
+- **Three.js starfield** — 3,000-point `BufferGeometry` star sphere with slow drift rotation
+- **Three.js ringed planet** — procedurally rendered in a background `<canvas>`
+- **Mini CSS solar system** — 3 orbital rings with pure CSS `@keyframes`, embedded in the hero
 - **Glitch hero title** with CSS pseudo-element animation
-- **Floating Mew** character with pink drop-shadow glow
-- **Particle field** via particles.js (pink/purple constellation network)
-- **Three.js ringed planet** rendered in a background canvas
-- **Active Missions** — three featured/pinned projects
+- **Typing animation** cycling 4 tagline phrases
+- **Floating Mew** character with pink drop-shadow glow (hidden gracefully if asset missing)
+- **Skills section** ("Systems Online") — 3 glassmorphism cards with animated pill tags
+- **Active Missions** — three featured/pinned project cards
 - **GitHub Repos grid** — fetched live from the GitHub API, sorted by stars
   - 1-hour `localStorage` cache to respect rate limits (60 req/hr unauthenticated)
   - Falls back to `repos.json` → hardcoded sample data if offline
+  - Language filter bar generated dynamically from real repo data
 - **Scattered card layout** — cards tilt via `nth-child` CSS transforms, straighten on hover
-- **Blog / Transmission Log** section with placeholder posts
+- **Project modal** with live README fetch from GitHub API
+- **Blog / Transmission Log** — markdown posts rendered to HTML via a custom parser; opens in modal
+- **Scroll-reveal animations** via `IntersectionObserver` on all major sections
 - **Theme toggle** (Default ↔ Nebula mode) persisted to `localStorage`
-- **Mobile hamburger menu** with accessible `aria-expanded` toggle
+- **Custom cursor** with sparkle particle trail (pointer-capable devices only)
+- **Mobile hamburger menu** with accessible `aria-expanded` toggle and X animation
 - **Accessible markup** — `aria-label`, `aria-live`, `rel="noopener noreferrer"` on all external links
 
 ---
@@ -35,7 +42,7 @@ A fully static, GitHub Pages–compatible developer portfolio with a deep-space 
 cosmic-mew-portfolio/
 ├── index.html          # Single-page app shell
 ├── styles.css          # All styling (variables, layout, animations, responsive)
-├── script.js           # particles.js config, Three.js, GitHub API, theme/nav logic
+├── script.js           # Three.js scene, GitHub API, blog renderer, theme/nav/cursor logic
 ├── repos.json          # Static fallback repo data (used when API is unavailable)
 ├── resume.pdf          # Linked from the "Download Log" navbar button
 ├── assets/
