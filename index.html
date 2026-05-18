@@ -14,6 +14,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
 </head>
 <body>
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <span class="loader-glyph">✦</span>
+    <p class="loader-label">INITIALIZING STARFIELD</p>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+  </div>
+
   <canvas id="three-canvas"></canvas>
 
   <nav class="navbar" aria-label="Main navigation">
@@ -25,6 +32,7 @@
       <span></span><span></span><span></span>
     </button>
     <div class="nav-links" id="nav-links">
+      <a href="#skills">SKILLS</a>
       <a href="#projects">PROJECTS</a>
       <a href="#blog">BLOG</a>
       <a href="#contact">CONTACT</a>
@@ -57,28 +65,58 @@
       </div>
     </section>
 
+    <section id="skills" class="section" aria-label="Skills">
+      <h2 class="reveal">SYSTEMS ONLINE</h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon"><i class="fas fa-code"></i></div>
+          <h3>Frontend</h3>
+          <div class="skill-tags">
+            <span>React</span><span>TypeScript</span><span>Three.js</span>
+            <span>CSS / SCSS</span><span>HTML5</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon"><i class="fas fa-server"></i></div>
+          <h3>Backend</h3>
+          <div class="skill-tags">
+            <span>Node.js</span><span>Python</span><span>PostgreSQL</span>
+            <span>Redis</span><span>REST / GraphQL</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon"><i class="fas fa-rocket"></i></div>
+          <h3>DevOps &amp; Tools</h3>
+          <div class="skill-tags">
+            <span>Git</span><span>Docker</span><span>GitHub Actions</span>
+            <span>Linux</span><span>Figma</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="projects" class="section" aria-label="Projects">
-      <h2>ACTIVE MISSIONS</h2>
+      <h2 class="reveal">ACTIVE MISSIONS</h2>
       <div class="featured-missions" aria-label="Featured projects">
-        <div class="mission-card featured">
+        <div class="mission-card featured reveal">
           <h3>MEWCODE</h3>
           <p>Open-source portfolio starter kit</p>
           <a href="https://github.com/chuls5/mewcode" target="_blank" rel="noopener noreferrer">github.com/chuls5/mewcode</a>
         </div>
-        <div class="mission-card featured">
+        <div class="mission-card featured reveal">
           <h3>COSMIC CMS</h3>
           <p>Headless CMS with real-time editing</p>
           <a href="https://github.com/chuls5/cosmic-cms" target="_blank" rel="noopener noreferrer">github.com/chuls5/cosmic-cms</a>
         </div>
-        <div class="mission-card featured">
+        <div class="mission-card featured reveal">
           <h3>NEBULA ANALYTICS</h3>
           <p>Data visualization platform</p>
           <a href="https://github.com/chuls5/nebula-analytics" target="_blank" rel="noopener noreferrer">github.com/chuls5/nebula-analytics</a>
         </div>
       </div>
 
-      <h2 class="subsection-title">GITHUB REPOSITORIES</h2>
-      <div id="filter-bar" class="filter-bar" aria-label="Filter repositories by language"></div>
+      <h2 class="subsection-title reveal">GITHUB REPOSITORIES</h2>
+      <div id="filter-bar" class="filter-bar reveal" aria-label="Filter repositories by language"></div>
       <div id="projects-grid" class="projects-grid" aria-live="polite" aria-label="GitHub repositories">
         <div class="loading-state">
           <div class="loading-spinner"></div>
@@ -89,14 +127,14 @@
     </section>
 
     <section id="blog" class="section" aria-label="Blog">
-      <h2>TRANSMISSION LOG</h2>
+      <h2 class="reveal">TRANSMISSION LOG</h2>
       <div id="blog-grid" class="blog-grid" aria-live="polite"></div>
     </section>
 
     <section id="contact" class="section contact" aria-label="Contact">
-      <h2>ESTABLISH COMMUNICATION</h2>
-      <p class="contact-tagline">Signal received from the edge of the universe? Transmit below.</p>
-      <div class="socials">
+      <h2 class="reveal">ESTABLISH COMMUNICATION</h2>
+      <p class="contact-tagline reveal">Signal received from the edge of the universe? Transmit below.</p>
+      <div class="socials reveal">
         <a href="https://github.com/chuls5" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <i class="fab fa-github"></i>
         </a>

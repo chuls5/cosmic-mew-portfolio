@@ -86,6 +86,27 @@ navLinks.querySelectorAll("a").forEach(link =>
   })
 );
 
+// ── Loader ──
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  setTimeout(() => {
+    loader.classList.add('hidden');
+    setTimeout(() => loader.remove(), 750);
+  }, 1300);
+});
+
+// ── Scroll Reveal ──
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
 // ── GitHub Repos ──
 const GITHUB_USERNAME = "chuls5";
 const CACHE_KEY = "gh_repos_v1";
@@ -208,6 +229,8 @@ function applyFilter(lang) {
     </div>
   `).join("");
   grid.querySelectorAll(".project-card").forEach(card => {
+    card.classList.add('reveal');
+    revealObserver.observe(card);
     const open = () => openModal(card.dataset.repo);
     card.addEventListener("click", open);
     card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
@@ -437,6 +460,8 @@ function renderBlog() {
     </article>
   `).join('');
   grid.querySelectorAll('.blog-card').forEach(card => {
+    card.classList.add('reveal');
+    revealObserver.observe(card);
     const open = () => openBlogModal(card.dataset.post);
     card.addEventListener('click', open);
     card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });

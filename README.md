@@ -137,10 +137,10 @@ Then in the repo **Settings → Pages**, set the source branch to `main` and dir
 | What | Where |
 |---|---|
 | Color palette | `--pink`, `--purple`, `--deep` in `styles.css :root` |
-| Particle count / color | `particlesJS(...)` config in `script.js` |
+| Star count / size | `starPositions` array in `initThree()` in `script.js` |
 | Planet position / ring | `planet.position.set(...)` in `script.js` |
 | Card scatter angle | `.project-card:nth-child(...)` in `styles.css` |
-| Blog posts | `.blog-card` blocks in `index.html` |
+| Blog posts | `BLOG_POSTS` array in `script.js` |
 | Cache TTL | `CACHE_TTL` constant in `script.js` |
 
 ---
@@ -155,6 +155,9 @@ Then in the repo **Settings → Pages**, set the source branch to `main` and dir
 - [x] 3D starfield via Three.js `BufferGeometry` (particles.js removed)
 - [x] Mini solar system in hero section (pure CSS orbital animation)
 - [x] Markdown → HTML blog rendering with modal viewer
+- [x] Skills section ("Systems Online")
+- [x] Cosmic loading screen
+- [x] Scroll-reveal animations (IntersectionObserver)
 
 ---
 
@@ -166,7 +169,6 @@ Then in the repo **Settings → Pages**, set the source branch to `main` and dir
 | Styling | Vanilla CSS (custom properties, `backdrop-filter`, CSS animations) |
 | Interactivity | Vanilla JavaScript (ES2020+) |
 | 3D background | [Three.js r134](https://threejs.org/) |
-| Particles | [particles.js 2.0](https://vincentgarreau.com/particles.js/) |
 | Icons | [Font Awesome 6](https://fontawesome.com/) |
 | Fonts | [Space Grotesk + IBM Plex Mono](https://fonts.google.com/) |
 | Hosting | GitHub Pages |
