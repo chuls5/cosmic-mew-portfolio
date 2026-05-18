@@ -152,10 +152,9 @@ Then in the repo **Settings → Pages**, set the source branch to `main` and dir
 - [x] Custom cursor with sparkle trail
 - [x] Typing animation for tagline
 - [x] Project filter by language / topic
-- [ ] Replace particles.js with tsParticles for better performance
-- [ ] 3D starfield (Three.js) replacing particle canvas
-- [ ] Mini solar system in hero section
-- [ ] Markdown → HTML blog rendering
+- [x] 3D starfield via Three.js `BufferGeometry` (particles.js removed)
+- [x] Mini solar system in hero section (pure CSS orbital animation)
+- [x] Markdown → HTML blog rendering with modal viewer
 
 ---
 

@@ -1,29 +1,3 @@
-// ── Particles ──
-particlesJS("particles", {
-  particles: {
-    number: { value: 150, density: { enable: true, value_area: 900 } },
-    color: { value: ["#ff69b4", "#c026d3", "#7e22ce", "#ffffff"] },
-    shape: { type: "circle" },
-    opacity: { value: 0.6, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.1 } },
-    size: { value: 2.5, random: true },
-    line_linked: { enable: true, distance: 120, color: "#ff69b4", opacity: 0.12, width: 1 },
-    move: { enable: true, speed: 1.1, random: true, out_mode: "out" }
-  },
-  interactivity: {
-    detect_on: "canvas",
-    events: {
-      onhover: { enable: true, mode: "grab" },
-      onclick: { enable: true, mode: "push" },
-      resize: true
-    },
-    modes: {
-      grab: { distance: 140, line_linked: { opacity: 0.35 } },
-      push: { particles_nb: 3 }
-    }
-  },
-  retina_detect: true
-});
-
 // ── Three.js Ringed Planet ──
 (function initThree() {
   const canvas = document.getElementById("three-canvas");
@@ -49,6 +23,16 @@ particlesJS("particles", {
   ring.rotation.x = Math.PI / 3;
   planet.add(ring);
 
+  // Starfield (replaces particles.js)
+  const starPositions = new Float32Array(3000 * 3);
+  for (let i = 0; i < starPositions.length; i++) starPositions[i] = (Math.random() - 0.5) * 300;
+  const starGeo = new THREE.BufferGeometry();
+  starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+  const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+    color: 0xffffff, size: 0.35, transparent: true, opacity: 0.7, sizeAttenuation: true,
+  }));
+  scene.add(stars);
+
   // Lights
   const pointLight = new THREE.PointLight(0xff69b4, 2.5, 100);
   pointLight.position.set(10, 10, 10);
@@ -63,6 +47,8 @@ particlesJS("particles", {
   (function animate() {
     requestAnimationFrame(animate);
     planet.rotation.y += 0.002;
+    stars.rotation.y  += 0.00008;
+    stars.rotation.x  += 0.00003;
     renderer.render(scene, camera);
   })();
 
@@ -163,10 +149,10 @@ const CACHE_TTL = 60 * 60 * 1000; // 1 hour
   });
 
   document.addEventListener("mouseover", e => {
-    if (e.target.closest("a, button")) cursor.classList.add("hovering");
+    if (e.target.closest("a, button, [role='button']")) cursor.classList.add("hovering");
   });
   document.addEventListener("mouseout", e => {
-    if (e.target.closest("a, button")) cursor.classList.remove("hovering");
+    if (e.target.closest("a, button, [role='button']")) cursor.classList.remove("hovering");
   });
 })();
 
@@ -280,7 +266,7 @@ function closeModal() {
 
 modalClose.addEventListener("click", closeModal);
 modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); closeBlogModal(); } });
 
 async function loadProjects() {
   // Serve from cache if fresh
@@ -324,3 +310,161 @@ async function loadProjects() {
 }
 
 loadProjects();
+
+// ── Blog Posts ──
+const BLOG_POSTS = [
+  {
+    id: 'websockets-cms',
+    date: '2026-05-01',
+    title: 'Building a Real-Time CMS with WebSockets',
+    excerpt: 'How I built Cosmic CMS from scratch using Node.js and live socket connections.',
+    content: `## The Problem
+
+Static CMSes are great, but I needed something that pushes edits to **all viewers simultaneously** — no page refresh required.
+
+## Tech Stack
+
+- Node.js + the ws library for WebSocket connections
+- Redis pub/sub to fan-out edits across server instances
+- contenteditable divs on the frontend for inline editing
+
+## The Key Insight
+
+Treat the document as a **CRDT** (Conflict-free Replicated Data Type). Every edit is an *operation* that can be applied in any order — keeping things conflict-free even with simultaneous editors.
+
+## What I Learned
+
+- Designing for network failure is harder than the happy path
+- Presence indicators (seeing other cursors) dramatically improve the collaboration feel
+- [Operational Transformation](https://en.wikipedia.org/wiki/Operational_transformation) is the classic alternative to CRDTs`,
+  },
+  {
+    id: 'threejs-cosmic',
+    date: '2026-04-15',
+    title: 'Three.js & the Art of Cosmic UIs',
+    excerpt: 'Using physics-based animations to create stunning space experiences in the browser.',
+    content: `## Why Three.js?
+
+CSS animations are powerful, but they cannot do *real* 3D. Three.js gives full WebGL access without writing raw GLSL shaders.
+
+## What Is in This Portfolio
+
+- **Ringed planet** — SphereGeometry plus RingGeometry child mesh, lit with a pink PointLight
+- **Starfield** — THREE.Points with BufferGeometry holding 3,000 star vertices
+- **Mini solar system** — pure CSS orbital animations in the hero section
+
+## Performance Tips
+
+- Set pixel ratio to min(devicePixelRatio, 2) to avoid blurry renders on HiDPI screens
+- Use **BufferGeometry** for large particle counts — the legacy Geometry class is much slower
+- Pause the animation loop when the tab is hidden using the *Page Visibility API*
+- Dispose geometries and materials when removing objects to prevent **GPU memory leaks**`,
+  },
+  {
+    id: 'gravity-sim',
+    date: '2026-03-28',
+    title: 'Astrophysics in Code: Simulating Gravity',
+    excerpt: 'Translating orbital mechanics equations into interactive JavaScript simulations.',
+    content: `## Newton's Law of Gravitation
+
+Everything starts with **F = Gm₁m₂ / r²**. For two bodies we compute the force, update velocity, then update position each animation frame.
+
+## The N-Body Problem
+
+For more than two bodies there is no closed-form solution. We use *Verlet integration* for numerical stability — the same technique used in games, NASA trajectory tools, and every physics engine.
+
+## Try It Yourself
+
+- Start with 3 bodies and observe [chaotic orbits](https://en.wikipedia.org/wiki/Three-body_problem)
+- Add a very massive central body to simulate a solar system
+- Vary the gravitational constant G to change orbital shapes
+
+## Why This Matters for Software
+
+Think of N-body simulation as **distributed systems**: each node influences all others. You cannot predict emergent behaviour from first principles — you have to *simulate it step by step*.`,
+  },
+];
+
+// ── Markdown → HTML ──
+function escHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function inlineMd(s) {
+  return s
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>');
+}
+
+function mdToHtml(md) {
+  const lines = md.split('\n');
+  const out = [];
+  let inCode = false, inList = false;
+  for (const line of lines) {
+    if (line.startsWith('```')) {
+      if (inCode) { out.push('</code></pre>'); inCode = false; }
+      else { if (inList) { out.push('</ul>'); inList = false; } out.push('<pre><code>'); inCode = true; }
+      continue;
+    }
+    if (inCode)                        { out.push(escHtml(line)); continue; }
+    if (!line.startsWith('- ') && inList) { out.push('</ul>'); inList = false; }
+    if      (line.startsWith('### ')) { out.push(`<h3>${inlineMd(line.slice(4))}</h3>`); }
+    else if (line.startsWith('## '))  { out.push(`<h2>${inlineMd(line.slice(3))}</h2>`); }
+    else if (line.startsWith('# '))   { out.push(`<h1>${inlineMd(line.slice(2))}</h1>`); }
+    else if (line.startsWith('- '))   {
+      if (!inList) { out.push('<ul>'); inList = true; }
+      out.push(`<li>${inlineMd(line.slice(2))}</li>`);
+    }
+    else if (line.trim() === '') { out.push(''); }
+    else { out.push(`<p>${inlineMd(line)}</p>`); }
+  }
+  if (inList) out.push('</ul>');
+  if (inCode) out.push('</code></pre>');
+  return out.join('\n');
+}
+
+// ── Blog Render ──
+function renderBlog() {
+  const grid = document.getElementById('blog-grid');
+  grid.innerHTML = BLOG_POSTS.map(post => `
+    <article class="blog-card" data-post="${post.id}" role="button" tabindex="0" aria-label="Read: ${post.title}">
+      <span class="blog-date">${post.date}</span>
+      <h3>${post.title}</h3>
+      <p>${post.excerpt}</p>
+      <span class="blog-link">Read Entry →</span>
+    </article>
+  `).join('');
+  grid.querySelectorAll('.blog-card').forEach(card => {
+    const open = () => openBlogModal(card.dataset.post);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
+}
+renderBlog();
+
+// ── Blog Modal ──
+const blogModal      = document.getElementById('blog-modal');
+const blogModalClose = document.getElementById('blog-modal-close');
+
+function openBlogModal(id) {
+  const post = BLOG_POSTS.find(p => p.id === id);
+  if (!post) return;
+  document.getElementById('blog-modal-date').textContent  = post.date;
+  document.getElementById('blog-modal-title').textContent = post.title;
+  document.getElementById('blog-modal-content').innerHTML = mdToHtml(post.content);
+  blogModal.classList.add('open');
+  blogModal.removeAttribute('aria-hidden');
+  document.body.style.overflow = 'hidden';
+  blogModalClose.focus();
+}
+
+function closeBlogModal() {
+  blogModal.classList.remove('open');
+  blogModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+blogModalClose.addEventListener('click', closeBlogModal);
+blogModal.addEventListener('click', e => { if (e.target === blogModal) closeBlogModal(); });

@@ -14,7 +14,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" defer></script>
 </head>
 <body>
-  <div id="particles"></div>
   <canvas id="three-canvas"></canvas>
 
   <nav class="navbar" aria-label="Main navigation">
@@ -42,6 +41,12 @@
 
   <main>
     <section id="home" class="hero" aria-label="Hero">
+      <div class="solar-system" aria-hidden="true">
+        <div class="solar-star"></div>
+        <div class="s-orbit s-orbit-1"><div class="s-planet s-planet-1"></div></div>
+        <div class="s-orbit s-orbit-2"><div class="s-planet s-planet-2"></div></div>
+        <div class="s-orbit s-orbit-3"><div class="s-planet s-planet-3"></div></div>
+      </div>
       <div class="hero-content">
         <img src="assets/mew-hero.png" alt="Cosmic Mew holding a Monster Energy drink" class="floating-mew"
           onerror="this.style.display='none'"/>
@@ -85,26 +90,7 @@
 
     <section id="blog" class="section" aria-label="Blog">
       <h2>TRANSMISSION LOG</h2>
-      <div class="blog-grid">
-        <article class="blog-card">
-          <span class="blog-date">2026-05-01</span>
-          <h3>Building a Real-Time CMS with WebSockets</h3>
-          <p>How I built Cosmic CMS from scratch using Node.js and live socket connections.</p>
-          <a href="#" class="blog-link">Read Entry →</a>
-        </article>
-        <article class="blog-card">
-          <span class="blog-date">2026-04-15</span>
-          <h3>Three.js &amp; the Art of Cosmic UIs</h3>
-          <p>Using physics-based animations to create stunning space experiences in the browser.</p>
-          <a href="#" class="blog-link">Read Entry →</a>
-        </article>
-        <article class="blog-card">
-          <span class="blog-date">2026-03-28</span>
-          <h3>Astrophysics in Code: Simulating Gravity</h3>
-          <p>Translating orbital mechanics equations into interactive JavaScript simulations.</p>
-          <a href="#" class="blog-link">Read Entry →</a>
-        </article>
-      </div>
+      <div id="blog-grid" class="blog-grid" aria-live="polite"></div>
     </section>
 
     <section id="contact" class="section contact" aria-label="Contact">
@@ -126,6 +112,20 @@
       </div>
     </section>
   </main>
+
+  <!-- Blog Modal -->
+  <div id="blog-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="blog-modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="blog-modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="blog-date" id="blog-modal-date"></span>
+        <h2 id="blog-modal-title"></h2>
+      </div>
+      <div class="modal-body">
+        <div class="modal-readme" id="blog-modal-content"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Project Modal -->
   <div id="modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -153,7 +153,6 @@
     <p class="footer-sub">Built with stardust, caffeine &amp; Three.js</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
