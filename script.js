@@ -88,12 +88,14 @@ const navLinks  = document.getElementById("nav-links");
 
 hamburger.addEventListener("click", () => {
   const isOpen = navLinks.classList.toggle("open");
+  hamburger.classList.toggle("open", isOpen);
   hamburger.setAttribute("aria-expanded", String(isOpen));
 });
 
 navLinks.querySelectorAll("a").forEach(link =>
   link.addEventListener("click", () => {
     navLinks.classList.remove("open");
+    hamburger.classList.remove("open");
     hamburger.setAttribute("aria-expanded", "false");
   })
 );
@@ -102,6 +104,71 @@ navLinks.querySelectorAll("a").forEach(link =>
 const GITHUB_USERNAME = "chuls5";
 const CACHE_KEY = "gh_repos_v1";
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+// ── Typing Animation ──
+(function initTyping() {
+  const el = document.getElementById("typed-text");
+  if (!el) return;
+  const phrases = [
+    "Turning cosmic dust into production code",
+    "Powered by Ultra Punk Punch",
+    "Exploring the digital cosmos, one commit at a time",
+    "Full-Stack Engineer · Astrophysics Nerd",
+  ];
+  let phraseIdx = 0, charIdx = 0, deleting = false;
+  function tick() {
+    const phrase = phrases[phraseIdx];
+    if (deleting) {
+      el.textContent = phrase.slice(0, --charIdx);
+      if (charIdx === 0) {
+        deleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        setTimeout(tick, 500);
+      } else {
+        setTimeout(tick, 38);
+      }
+    } else {
+      el.textContent = phrase.slice(0, ++charIdx);
+      if (charIdx === phrase.length) {
+        deleting = true;
+        setTimeout(tick, 2400);
+      } else {
+        setTimeout(tick, 68);
+      }
+    }
+  }
+  setTimeout(tick, 900);
+})();
+
+// ── Custom Cursor + Sparkle Trail ──
+(function initCursor() {
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+  const cursor = document.getElementById("cursor");
+  const COLORS = ["#ff69b4", "#c026d3", "#a855f7", "#ffffff"];
+  let lastSparkle = 0;
+
+  document.addEventListener("mousemove", e => {
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top  = e.clientY + "px";
+    const now = Date.now();
+    if (now - lastSparkle > 55) {
+      lastSparkle = now;
+      const s = document.createElement("div");
+      s.className = "sparkle";
+      const size = 3 + Math.random() * 5;
+      s.style.cssText = `left:${e.clientX + (Math.random()-0.5)*16}px;top:${e.clientY + (Math.random()-0.5)*16}px;width:${size}px;height:${size}px;background:${COLORS[Math.floor(Math.random()*COLORS.length)]}`;
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 680);
+    }
+  });
+
+  document.addEventListener("mouseover", e => {
+    if (e.target.closest("a, button")) cursor.classList.add("hovering");
+  });
+  document.addEventListener("mouseout", e => {
+    if (e.target.closest("a, button")) cursor.classList.remove("hovering");
+  });
+})();
 
 const FALLBACK_REPOS = [
   { name: "cosmic-core",   description: "Core utilities for cosmic calculations.",            stargazers_count: 1200, forks_count: 89,  html_url: `https://github.com/${GITHUB_USERNAME}/cosmic-core`,   language: "TypeScript"  },
@@ -112,24 +179,108 @@ const FALLBACK_REPOS = [
   { name: "stardust-ui",   description: "React component library with a space aesthetic.",   stargazers_count: 720,  forks_count: 145, html_url: `https://github.com/${GITHUB_USERNAME}/stardust-ui`,   language: "TypeScript"  },
 ];
 
+let allRepos = [];
+
 function fmt(n) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n);
 }
 
-function renderRepos(repos) {
-  document.getElementById("projects-grid").innerHTML = repos.map(r => `
-    <div class="project-card">
+// ── Filter ──
+function setupFilter(repos) {
+  const bar = document.getElementById("filter-bar");
+  const langs = ["all", ...new Set(repos.map(r => r.language).filter(Boolean))];
+  bar.innerHTML = langs.map(lang =>
+    `<button class="filter-btn${lang === "all" ? " active" : ""}" data-lang="${lang}">${lang === "all" ? "All" : lang}</button>`
+  ).join("");
+  bar.querySelectorAll(".filter-btn").forEach(btn =>
+    btn.addEventListener("click", () => {
+      bar.querySelector(".active").classList.remove("active");
+      btn.classList.add("active");
+      applyFilter(btn.dataset.lang);
+    })
+  );
+}
+
+function applyFilter(lang) {
+  const filtered = lang === "all" ? allRepos : allRepos.filter(r => r.language === lang);
+  const grid = document.getElementById("projects-grid");
+  if (filtered.length === 0) {
+    grid.innerHTML = `<p class="no-results">No missions found for <span style="color:var(--pink)">${lang}</span>.</p>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(r => `
+    <div class="project-card" data-repo="${r.name}" role="button" tabindex="0" aria-label="Open ${r.name} details">
       <h3>${r.name}</h3>
       <p>${r.description || "Exploring the digital cosmos."}</p>
       <div class="card-footer">
         <span class="card-stat"><span class="star">★</span> ${fmt(r.stargazers_count)}</span>
         <span class="card-stat"><i class="fas fa-code-branch" style="font-size:.65rem;opacity:.7"></i> ${fmt(r.forks_count)}</span>
         ${r.language ? `<span class="card-lang">${r.language}</span>` : ""}
-        <a href="${r.html_url}" target="_blank" rel="noopener noreferrer" class="card-link">View Mission →</a>
+        <a href="${r.html_url}" target="_blank" rel="noopener noreferrer" class="card-link"
+           onclick="event.stopPropagation()">View Mission →</a>
       </div>
     </div>
   `).join("");
+  grid.querySelectorAll(".project-card").forEach(card => {
+    const open = () => openModal(card.dataset.repo);
+    card.addEventListener("click", open);
+    card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
 }
+
+function renderRepos(repos) {
+  allRepos = repos;
+  setupFilter(repos);
+  applyFilter("all");
+}
+
+// ── Modal ──
+const modal      = document.getElementById("modal");
+const modalClose = document.getElementById("modal-close");
+
+function openModal(repoName) {
+  const repo = allRepos.find(r => r.name === repoName);
+  if (!repo) return;
+
+  document.getElementById("modal-title").textContent = repo.name;
+  document.getElementById("modal-desc").textContent  = repo.description || "Exploring the digital cosmos.";
+  document.getElementById("modal-stats").innerHTML = `
+    <span><span class="star">★</span> ${fmt(repo.stargazers_count)} stars</span>
+    <span><i class="fas fa-code-branch"></i> ${fmt(repo.forks_count)} forks</span>
+    ${repo.language ? `<span>${repo.language}</span>` : ""}
+  `;
+  document.getElementById("modal-github-link").href = repo.html_url;
+  document.getElementById("modal-readme").innerHTML = `
+    <div class="modal-readme-loading">
+      <div class="loading-spinner"></div>
+      <span>Fetching mission briefing…</span>
+    </div>`;
+
+  modal.classList.add("open");
+  modal.removeAttribute("aria-hidden");
+  document.body.style.overflow = "hidden";
+  modalClose.focus();
+
+  fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${repoName}/readme`, {
+    headers: { Accept: "application/vnd.github.html+json" }
+  })
+    .then(res => { if (!res.ok) throw new Error("No README"); return res.text(); })
+    .then(html => { document.getElementById("modal-readme").innerHTML = html; })
+    .catch(() => {
+      document.getElementById("modal-readme").innerHTML =
+        `<p style="color:var(--text-dim);text-align:center;padding:2rem">No mission briefing available for this repo.</p>`;
+    });
+}
+
+function closeModal() {
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+modalClose.addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
 async function loadProjects() {
   // Serve from cache if fresh

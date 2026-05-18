@@ -47,7 +47,7 @@
           onerror="this.style.display='none'"/>
         <h1 class="glitch" data-text="CODY HULS">CODY HULS</h1>
         <p class="subtitle">Astrophysics-Inspired Full-Stack Engineer</p>
-        <p class="tagline">Turning cosmic dust into production code &bull; Powered by Ultra Punk Punch</p>
+        <p class="tagline" aria-live="polite"><span id="typed-text"></span><span class="typed-cursor" aria-hidden="true">|</span></p>
         <a href="#projects" class="cta-btn">ENTER THE NEBULA →</a>
       </div>
     </section>
@@ -73,6 +73,7 @@
       </div>
 
       <h2 class="subsection-title">GITHUB REPOSITORIES</h2>
+      <div id="filter-bar" class="filter-bar" aria-label="Filter repositories by language"></div>
       <div id="projects-grid" class="projects-grid" aria-live="polite" aria-label="GitHub repositories">
         <div class="loading-state">
           <div class="loading-spinner"></div>
@@ -125,6 +126,27 @@
       </div>
     </section>
   </main>
+
+  <!-- Project Modal -->
+  <div id="modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modal-title"></h2>
+        <p id="modal-desc"></p>
+        <div class="modal-stats" id="modal-stats"></div>
+      </div>
+      <div class="modal-body">
+        <div id="modal-readme" class="modal-readme"></div>
+      </div>
+      <div class="modal-footer">
+        <a id="modal-github-link" href="#" target="_blank" rel="noopener noreferrer" class="cta-btn">View on GitHub →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div id="cursor" aria-hidden="true"></div>
 
   <footer>
     <p>&copy; 2026 Cody Huls &bull; Deployed from the Edge of the Universe</p>
