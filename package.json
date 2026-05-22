@@ -1,0 +1,23 @@
+{
+  "name": "cosmic-mew-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Astrophysics-inspired developer portfolio. Vanilla JS + Three.js, built with Vite.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{js,css}\" \"*.{html,md,json}\""
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.0",
+    "vite": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

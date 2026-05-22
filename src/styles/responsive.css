@@ -1,0 +1,52 @@
+/* Mobile/responsive overrides. Loaded last so it can override anything before it. */
+
+.nav-mobile-controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(10, 0, 31, 0.96);
+    backdrop-filter: blur(18px);
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-links.open { display: flex; }
+
+  .controls { display: none; }
+
+  .nav-mobile-controls {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--glass-border);
+    width: 100%;
+  }
+
+  .floating-mew { width: 155px; }
+
+  .featured-missions { grid-template-columns: 1fr; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+
+  /* Remove card tilt on mobile */
+  .project-card:nth-child(n) { transform: none; }
+
+  .blog-grid { grid-template-columns: 1fr; }
+
+  .modal-card { border-radius: 16px; }
+  .modal-header, .modal-body, .modal-footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+
+  .about-card { padding: 1.75rem 1.5rem; }
+  .about-facts { grid-template-columns: 1fr; }
+}

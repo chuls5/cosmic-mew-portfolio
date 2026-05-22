@@ -1,6 +1,6 @@
 # 🌌 cosmic-mew-portfolio
 
-A fully static, GitHub Pages–compatible developer portfolio with a deep-space / astrophysics aesthetic. Built with vanilla HTML, CSS, and JavaScript — no frameworks, no build step.
+A modular, GitHub Pages–deployable developer portfolio with a deep-space / astrophysics aesthetic. Vanilla JS + Three.js, built with Vite.
 
 ---
 
@@ -12,27 +12,19 @@ A fully static, GitHub Pages–compatible developer portfolio with a deep-space 
 
 ## Features
 
-- **Cosmic loading screen** — animated ✦ glyph with gradient progress bar, fades out on load
-- **Three.js starfield** — 3,000-point `BufferGeometry` star sphere with slow drift rotation
-- **Three.js ringed planet** — procedurally rendered in a background `<canvas>`
-- **Mini CSS solar system** — 3 orbital rings with pure CSS `@keyframes`, embedded in the hero
-- **Glitch hero title** with CSS pseudo-element animation
-- **Typing animation** cycling 4 tagline phrases
-- **Floating Mew** character with pink drop-shadow glow (hidden gracefully if asset missing)
-- **Skills section** ("Systems Online") — 3 glassmorphism cards with animated pill tags
-- **Active Missions** — three featured/pinned project cards
-- **GitHub Repos grid** — fetched live from the GitHub API, sorted by stars
-  - 1-hour `localStorage` cache to respect rate limits (60 req/hr unauthenticated)
-  - Falls back to `repos.json` → hardcoded sample data if offline
-  - Language filter bar generated dynamically from real repo data
-- **Scattered card layout** — cards tilt via `nth-child` CSS transforms, straighten on hover
-- **Project modal** with live README fetch from GitHub API
-- **Blog / Transmission Log** — markdown posts rendered to HTML via a custom parser; opens in modal
-- **Scroll-reveal animations** via `IntersectionObserver` on all major sections
-- **Theme toggle** (Default ↔ Nebula mode) persisted to `localStorage`
-- **Custom cursor** with sparkle particle trail (pointer-capable devices only)
-- **Mobile hamburger menu** with accessible `aria-expanded` toggle and X animation
-- **Accessible markup** — `aria-label`, `aria-live`, `rel="noopener noreferrer"` on all external links
+- **Cosmic loading screen** — animated ✦ glyph with gradient progress bar
+- **Three.js starfield + ringed planet** — 3,000-point `BufferGeometry`, slow drift rotation
+- **Mini CSS solar system** in the hero
+- **Glitch hero title** + cycling typing tagline
+- **Skills section** ("Systems Online") with glassmorphism cards
+- **GitHub Repos grid** — live from the API with a 4-tier fallback chain (cache → API → static JSON → hardcoded)
+- **Scattered card layout** that straightens on hover
+- **Project & blog modals** with markdown rendering and shared `inert`/focus handling
+- **Blog ("Transmission Log")** — minimal markdown parser, 6 canvas thumbnail animations
+- **Scroll-reveal** via `IntersectionObserver`
+- **Theme toggle** (Default ↔ Nebula) persisted to `localStorage`
+- **Custom cursor + sparkle trail** (pointer-fine devices only)
+- **Accessible**: skip link, ARIA roles, focus-visible outlines, `prefers-reduced-motion` support
 
 ---
 
@@ -40,145 +32,130 @@ A fully static, GitHub Pages–compatible developer portfolio with a deep-space 
 
 ```
 cosmic-mew-portfolio/
-├── index.html          # Single-page app shell
-├── styles.css          # All styling (variables, layout, animations, responsive)
-├── script.js           # Three.js scene, GitHub API, blog renderer, theme/nav/cursor logic
-├── repos.json          # Static fallback repo data (used when API is unavailable)
-├── resume.pdf          # Linked from the "Download Log" navbar button
-├── assets/
-│   └── mew-hero.png    # Transparent PNG of Mew holding Monster Energy
-└── .github/
-    └── workflows/
-        └── update-repos.yml   # (optional) GitHub Action to refresh repos.json nightly
+├── index.html              # Vite entry — references /src/main.js
+├── package.json
+├── vite.config.js
+├── public/                 # Served as-is at the site root
+│   ├── assets/
+│   └── repos.json          # Static repo fallback
+├── src/
+│   ├── main.js             # Imports CSS + initializes all features
+│   ├── config.js           # Tunable knobs (GitHub username, cache TTL, tagline phrases)
+│   ├── scene.js            # Three.js scene (planet + starfield)
+│   ├── utils.js            # escHtml, safeUrl, fmt, formatDate
+│   ├── ui/
+│   │   ├── theme.js        # Theme toggle
+│   │   ├── nav.js          # Hamburger, active section, scrolled state
+│   │   ├── loader.js
+│   │   ├── reveal.js       # Shared IntersectionObserver
+│   │   ├── typing.js
+│   │   ├── cursor.js
+│   │   ├── back-to-top.js
+│   │   └── modal.js        # createModal() — open/close/inert/focus helpers
+│   ├── repos/
+│   │   ├── api.js          # 4-tier fetch fallback chain
+│   │   ├── render.js       # Cards, filter, project modal
+│   │   └── fallback-data.js
+│   ├── blog/
+│   │   ├── posts.js        # BLOG_POSTS — edit to add a post
+│   │   ├── markdown.js     # Minimal markdown parser
+│   │   ├── visuals.js      # Canvas thumbnail animations (galaxy, nebula, …)
+│   │   └── render.js
+│   └── styles/
+│       ├── main.css        # @imports the rest
+│       ├── base.css        # Variables, reset, theme, .reveal, reduced motion
+│       ├── layout.css      # Navbar, hero, sections, about, contact, footer
+│       ├── components.css  # Cards, modals, filters, buttons, blog
+│       ├── features.css    # Loader, cursor, mini solar system
+│       └── responsive.css  # Mobile @media
+└── .github/workflows/
+    └── deploy.yml          # Builds + publishes dist/ to GitHub Pages
 ```
 
 ---
 
 ## Quick Start
 
-```bash
-git clone https://github.com/YOUR_USERNAME/cosmic-mew-portfolio.git
-cd cosmic-mew-portfolio
-# Open with VS Code Live Server, or:
-open index.html
-```
+Requires **Node 20+**.
 
-No package manager or build step required.
+```bash
+npm install
+npm run dev       # http://localhost:5173 with hot reload
+npm run build     # → dist/  (what gets deployed)
+npm run preview   # serve dist/ locally to test the prod build
+npm run format    # run Prettier
+```
 
 ---
 
 ## Configuration
 
-### 1. Set your GitHub username
-
-In `script.js`, line 1:
+Edit [`src/config.js`](src/config.js):
 
 ```js
-const GITHUB_USERNAME = "chuls5";
+export const GITHUB_USERNAME = 'chuls5';
+export const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+export const TYPING_PHRASES = [...];
 ```
 
-### 2. Update social links
-
-In `index.html`, update the `href` values in the contact section and the navbar resume link:
-
-```html
-<a href="https://github.com/YOUR_USERNAME" ...>
-<a href="https://linkedin.com/in/YOUR_PROFILE" ...>
-<a href="mailto:your@email.com" ...>
-<a href="https://twitter.com/YOUR_HANDLE" ...>
-<a href="resume.pdf" download ...>
-```
-
-### 3. Add your hero image
-
-Place a transparent PNG of your Mew character at:
-
-```
-assets/mew-hero.png
-```
-
-If the file is missing the image is hidden gracefully via `onerror`.
-
-### 4. Update featured projects
-
-Edit the three `.mission-card.featured` blocks in `index.html` with your actual pinned project names, descriptions, and GitHub URLs.
+Other things to update for a fork:
+- Social links and featured project cards in [`index.html`](index.html)
+- Featured project cards in `index.html` (`.mission-card.featured` blocks)
+- Drop your `resume.pdf` in [`public/`](public/) and `mew-hero.png` (or your own) in [`public/assets/`](public/assets/)
 
 ---
 
-## Caching & GitHub API
+## Adding Content
 
-The GitHub API allows **60 unauthenticated requests per hour** per IP. The site handles this with a layered fallback:
+**A new blog post** — append an entry to `BLOG_POSTS` in [`src/blog/posts.js`](src/blog/posts.js). Set `visual` to one of `galaxy | nebula | binary | wormhole | pulsar | orbit`. Markdown supports `# ## ###`, `- ` lists, fenced ```code```, `**bold**`, `*em*`, `` `code` ``, `[links](url)`.
+
+**A new canvas visual** — add `animateMyThing(ctx, W, H, reduced)` to [`src/blog/visuals.js`](src/blog/visuals.js), register it in the `VISUALS` map, then set `visual: 'myThing'` on a post.
+
+**A new UI feature** — drop a module under [`src/ui/`](src/ui/) exporting `initFoo()`, then call it from [`src/main.js`](src/main.js).
+
+---
+
+## GitHub API & Caching
+
+The GitHub API allows **60 unauthenticated requests per hour** per IP. The site uses a 4-tier fallback:
 
 ```
-GitHub API  →  localStorage cache (1 hr TTL)  →  repos.json  →  hardcoded samples
+localStorage cache (1h TTL)  →  GitHub API  →  /repos.json  →  hardcoded FALLBACK_REPOS
 ```
 
-To refresh `repos.json` manually:
+To refresh the static fallback manually:
 
 ```bash
 curl "https://api.github.com/users/chuls5/repos?sort=stargazers&per_page=12" \
-  > repos.json
+  > public/repos.json
 ```
-
-Or automate it with the included GitHub Actions workflow template (see `.github/workflows/update-repos.yml`).
 
 ---
 
 ## Deployment (GitHub Pages)
 
-```bash
-git add .
-git commit -m "init: cosmic-mew-portfolio"
-git remote add origin https://github.com/chuls5/cosmic-mew-portfolio.git
-git push -u origin main
-```
+The workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) builds and publishes on every push to `main`.
 
-Then in the repo **Settings → Pages**, set the source branch to `main` and directory to `/ (root)`.
+**One-time setup**: in GitHub repo **Settings → Pages**, set **Source = "GitHub Actions"**.
 
-> **Note:** GitHub Pages paths are case-sensitive. Keep all asset filenames lowercase.
+The `base` path in [`vite.config.js`](vite.config.js) is `/cosmic-mew-portfolio/` — change this if you fork to a different repo name, or set it to `/` if you're deploying to a custom domain.
 
----
-
-## Customization Notes
-
-| What | Where |
-|---|---|
-| Color palette | `--pink`, `--purple`, `--deep` in `styles.css :root` |
-| Star count / size | `starPositions` array in `initThree()` in `script.js` |
-| Planet position / ring | `planet.position.set(...)` in `script.js` |
-| Card scatter angle | `.project-card:nth-child(...)` in `styles.css` |
-| Blog posts | `BLOG_POSTS` array in `script.js` |
-| Cache TTL | `CACHE_TTL` constant in `script.js` |
-
----
-
-## Roadmap
-
-- [x] Mobile hamburger animation (X transform)
-- [x] Project modal with README preview
-- [x] Custom cursor with sparkle trail
-- [x] Typing animation for tagline
-- [x] Project filter by language / topic
-- [x] 3D starfield via Three.js `BufferGeometry` (particles.js removed)
-- [x] Mini solar system in hero section (pure CSS orbital animation)
-- [x] Markdown → HTML blog rendering with modal viewer
-- [x] Skills section ("Systems Online")
-- [x] Cosmic loading screen
-- [x] Scroll-reveal animations (IntersectionObserver)
+> **Note:** Pages is case-sensitive. Keep asset filenames lowercase.
 
 ---
 
 ## Tech Stack
 
-| Layer | Library / Approach |
+| Layer | Choice |
 |---|---|
+| Tooling | [Vite](https://vitejs.dev/) |
 | Structure | Semantic HTML5 |
-| Styling | Vanilla CSS (custom properties, `backdrop-filter`, CSS animations) |
-| Interactivity | Vanilla JavaScript (ES2020+) |
-| 3D background | [Three.js r134](https://threejs.org/) |
-| Icons | [Font Awesome 6](https://fontawesome.com/) |
-| Fonts | [Space Grotesk + IBM Plex Mono](https://fonts.google.com/) |
-| Hosting | GitHub Pages |
+| Styling | Vanilla CSS (custom properties, `backdrop-filter`, `@import`) |
+| Interactivity | Vanilla JavaScript (ES2020+) modules |
+| 3D background | [three](https://www.npmjs.com/package/three) (npm) |
+| Icons | [Font Awesome 6](https://fontawesome.com/) (CDN) |
+| Fonts | [Space Grotesk + IBM Plex Mono](https://fonts.google.com/) (CDN) |
+| Hosting | GitHub Pages via Actions |
 
 ---
 

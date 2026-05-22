@@ -11,7 +11,13 @@
 
 # Logs
 *.log
+npm-debug.log*
 
 # Local env
 .env
 .env.local
+
+# Vite / Node
+node_modules/
+dist/
+.vite/

@@ -1,0 +1,9 @@
+/*
+ * Entry stylesheet. Imported by src/main.js.
+ * Load order matters for the cascade — keep it: base → layout → components → features → responsive.
+ */
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+@import './features.css';
+@import './responsive.css';

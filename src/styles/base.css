@@ -1,0 +1,109 @@
+/* Design tokens, reset, body, theme variants, a11y primitives. */
+
+:root {
+  --pink: #ff69b4;
+  --pink-bright: #ff8fd0;
+  --purple: #a855f7;
+  --deep: #0a001f;
+  --card-bg: rgba(10, 2, 35, 0.78);
+  --glass-border: rgba(255, 105, 180, 0.28);
+  --text: #e0d4ff;
+  --text-dim: rgba(224, 212, 255, 0.55);
+  --glow-pink: 0 0 24px rgba(255, 105, 180, 0.45);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--deep);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body.nebula-mode {
+  --deep: #1a0030;
+  --card-bg: rgba(30, 5, 60, 0.78);
+}
+
+/* ── No-JS banner ── */
+.noscript-banner {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--deep);
+  z-index: 9999;
+  padding: 2rem;
+}
+.noscript-banner p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  text-align: center;
+  border: 1px solid var(--glass-border);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  max-width: 420px;
+}
+
+/* ── Skip Link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--pink);
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0 0 8px 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── Scroll Reveal utility ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Focus Visibility (keyboard accessibility) ── */
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  html { scroll-behavior: auto; }
+}
