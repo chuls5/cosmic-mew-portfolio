@@ -1,7 +1,9 @@
 import * as THREE from 'three';
+import { prefersReducedMotion } from './utils.js';
 
 // Background Three.js scene: a ringed planet and a 3000-star starfield.
 // Pauses rendering when the tab is hidden.
+// Under prefers-reduced-motion, renders one static frame and skips the animation loop entirely.
 export function initScene() {
   const canvas = document.getElementById('three-canvas');
   if (!canvas) return;
@@ -62,6 +64,8 @@ export function initScene() {
 
   camera.position.z = 8;
 
+  const reduced = prefersReducedMotion();
+
   let rafId;
   function animate() {
     rafId = requestAnimationFrame(animate);
@@ -70,16 +74,21 @@ export function initScene() {
     stars.rotation.x += 0.00003;
     renderer.render(scene, camera);
   }
-  animate();
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) cancelAnimationFrame(rafId);
-    else animate();
-  });
+  if (reduced) {
+    renderer.render(scene, camera);
+  } else {
+    animate();
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(rafId);
+      else animate();
+    });
+  }
 
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    if (reduced) renderer.render(scene, camera);
   });
 }

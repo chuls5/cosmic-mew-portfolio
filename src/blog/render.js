@@ -19,7 +19,7 @@ function renderBlog() {
     (post) => `
     <article class="blog-card" data-post="${escHtml(post.id)}" role="button" tabindex="0" aria-label="Read: ${escHtml(post.title)}">
       <canvas class="blog-canvas" data-visual="${escHtml(post.visual)}" aria-hidden="true"></canvas>
-      <span class="blog-date">${formatDate(post.date)}</span>
+      <span class="blog-date">${formatDate(post.date)}</span>${post.draft ? '<span class="draft-badge">DRAFT</span>' : ''}
       <h3>${escHtml(post.title)}</h3>
       <p>${escHtml(post.excerpt)}</p>
       <span class="blog-link">Read Entry →</span>
@@ -46,6 +46,7 @@ function openBlogModal(id, triggerEl) {
   if (!post) return;
   modal.open(triggerEl, () => {
     document.getElementById('blog-modal-date').textContent = formatDate(post.date);
+    document.getElementById('blog-modal-draft').hidden = !post.draft;
     document.getElementById('blog-modal-title').textContent = post.title;
     document.getElementById('blog-modal-content').innerHTML = mdToHtml(post.content);
   });

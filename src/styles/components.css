@@ -253,6 +253,22 @@
   color: var(--purple);
   letter-spacing: 0.08em;
 }
+
+.draft-badge {
+  display: inline-block;
+  margin-left: 0.55rem;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--pink);
+  background: rgba(255, 105, 180, 0.12);
+  border: 1px solid rgba(255, 105, 180, 0.4);
+  border-radius: 4px;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.draft-badge[hidden] { display: none; }
 .blog-card h3 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.95rem;

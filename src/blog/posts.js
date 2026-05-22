@@ -1,11 +1,13 @@
 // Blog content. Add an entry here to publish a new post.
 //   `visual`: one of 'galaxy' | 'nebula' | 'binary' | 'wormhole' | 'pulsar' | 'orbit'
 //             (canvas animations defined in src/blog/visuals.js)
+//   `draft`:  optional — when true, renders a "DRAFT" badge on the card and in the modal
 //   `content`: minimal Markdown — see src/blog/markdown.js for supported syntax
 //             (headings #/##/###, bullets `- `, fenced ```code```, **bold**, *em*, `code`, [links](url))
 export const BLOG_POSTS = [
   {
     id: 'websockets-cms',
+    draft: true,
     visual: 'galaxy',
     date: '2026-05-01',
     title: 'Building a Real-Time CMS with WebSockets',
@@ -32,6 +34,7 @@ Treat the document as a **CRDT** (Conflict-free Replicated Data Type). Every edi
   },
   {
     id: 'threejs-cosmic',
+    draft: true,
     visual: 'nebula',
     date: '2026-04-15',
     title: 'Three.js & the Art of Cosmic UIs',
@@ -55,6 +58,7 @@ CSS animations are powerful, but they cannot do *real* 3D. Three.js gives full W
   },
   {
     id: 'gravity-sim',
+    draft: true,
     visual: 'binary',
     date: '2026-03-28',
     title: 'Astrophysics in Code: Simulating Gravity',
@@ -79,6 +83,7 @@ Think of N-body simulation as **distributed systems**: each node influences all 
   },
   {
     id: 'career-pivot',
+    draft: true,
     visual: 'wormhole',
     date: '2026-03-10',
     title: 'From Telescope to Terminal: My Astrophysics Career Pivot',
@@ -107,6 +112,7 @@ If you are a scientist considering software engineering: your background is a *f
   },
   {
     id: 'signal-processing',
+    draft: true,
     visual: 'pulsar',
     date: '2026-02-20',
     title: 'Taming Signals: From Radio Telescopes to Real-Time Data Streams',
@@ -140,6 +146,7 @@ The fundamental problem is identical to real-time data engineering:
   },
   {
     id: 'playwright-azure',
+    draft: true,
     visual: 'orbit',
     date: '2026-01-28',
     title: 'End-to-End Testing at Scale: Playwright & Azure DevOps',

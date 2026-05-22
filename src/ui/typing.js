@@ -1,9 +1,16 @@
 import { TYPING_PHRASES } from '../config.js';
+import { prefersReducedMotion } from '../utils.js';
 
 // Typewriter animation for the hero tagline. Cycles through TYPING_PHRASES forever.
+// Under prefers-reduced-motion, shows the first phrase statically.
 export function initTyping() {
   const el = document.getElementById('typed-text');
   if (!el) return;
+
+  if (prefersReducedMotion()) {
+    el.textContent = TYPING_PHRASES[0];
+    return;
+  }
 
   let phraseIdx = 0;
   let charIdx = 0;
