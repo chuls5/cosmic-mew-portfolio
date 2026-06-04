@@ -1,54 +1,34 @@
 import { GITHUB_USERNAME } from '../config.js';
 
 // Last-resort sample data used only if the GitHub API and repos.json both fail.
-// Edit freely — these never ship to a real user unless something has gone very wrong.
+// Mirrors the real chuls5 public repos as of 2026-06-04. Refresh occasionally
+// (or after publishing a new repo) so the offline experience stays accurate:
+//   curl "https://api.github.com/users/chuls5/repos?sort=stargazers&per_page=8"
 export const FALLBACK_REPOS = [
   {
-    name: 'cosmic-core',
-    description: 'Core utilities for cosmic calculations.',
-    stargazers_count: 12,
-    forks_count: 4,
-    html_url: `https://github.com/${GITHUB_USERNAME}/cosmic-core`,
-    language: 'TypeScript',
-  },
-  {
-    name: 'nebula-utils',
-    description: 'Core utilities for nebula formations.',
-    stargazers_count: 8,
-    forks_count: 2,
-    html_url: `https://github.com/${GITHUB_USERNAME}/nebula-utils`,
+    name: 'cosmic-mew-portfolio',
+    description:
+      'Astrophysics-inspired portfolio — particles, Three.js, GitHub API, pink glitter Mew',
+    stargazers_count: 0,
+    forks_count: 0,
+    html_url: `https://github.com/${GITHUB_USERNAME}/cosmic-mew-portfolio`,
     language: 'JavaScript',
   },
   {
-    name: 'astro-nav',
-    description: 'Simulates galaxy formations and orbital mechanics.',
-    stargazers_count: 21,
-    forks_count: 5,
-    html_url: `https://github.com/${GITHUB_USERNAME}/astro-nav`,
-    language: 'Python',
-  },
-  {
-    name: 'galaxy-sim',
-    description: 'Simulates galaxy formation processes.',
-    stargazers_count: 9,
-    forks_count: 3,
-    html_url: `https://github.com/${GITHUB_USERNAME}/galaxy-sim`,
+    name: 'Playwright-template',
+    description:
+      'Comprehensive Playwright testing framework template with Azure DevOps integration via @alex_neo/azure-reporter — accelerates test automation rollout for dev teams.',
+    stargazers_count: 0,
+    forks_count: 0,
+    html_url: `https://github.com/${GITHUB_USERNAME}/Playwright-template`,
     language: 'JavaScript',
   },
   {
-    name: 'pulsar-api',
-    description: 'High-performance REST API with cosmic conventions.',
-    stargazers_count: 6,
-    forks_count: 1,
-    html_url: `https://github.com/${GITHUB_USERNAME}/pulsar-api`,
-    language: 'Node.js',
-  },
-  {
-    name: 'stardust-ui',
-    description: 'React component library with a space aesthetic.',
-    stargazers_count: 14,
-    forks_count: 3,
-    html_url: `https://github.com/${GITHUB_USERNAME}/stardust-ui`,
-    language: 'TypeScript',
+    name: 'chuls5',
+    description: 'GitHub profile README',
+    stargazers_count: 0,
+    forks_count: 0,
+    html_url: `https://github.com/${GITHUB_USERNAME}/chuls5`,
+    language: null,
   },
 ];

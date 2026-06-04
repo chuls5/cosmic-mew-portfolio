@@ -21,3 +21,9 @@ npm-debug.log*
 node_modules/
 dist/
 .vite/
+
+# Playwright
+/playwright-report/
+/test-results/
+/blob-report/
+/playwright/.cache/
