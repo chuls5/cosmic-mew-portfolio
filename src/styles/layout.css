@@ -259,7 +259,7 @@ main, nav, footer { position: relative; z-index: 10; }
   display: inline-block;
   padding: 0.75rem 2.2rem;
   background: linear-gradient(135deg, var(--pink), var(--purple));
-  color: #fff;
+  color: var(--deep);
   text-decoration: none;
   border-radius: 30px;
   font-family: 'Space Grotesk', sans-serif;

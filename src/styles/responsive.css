@@ -1,10 +1,16 @@
-/* Mobile/responsive overrides. Loaded last so it can override anything before it. */
+/* Mobile/responsive overrides. Loaded last so it can override anything before it.
+ * Three breakpoints, narrowest wins:
+ *   900px — collapse navbar to hamburger (full nav row needs ~950px to render without cramping)
+ *   768px — grids drop to single column, hero/modals tighten
+ *   420px — small-phone overrides for paddings that still feel generous
+ */
 
 .nav-mobile-controls {
   display: none;
 }
 
-@media (max-width: 768px) {
+/* Tablet & below — collapse navbar to hamburger menu */
+@media (max-width: 900px) {
   .hamburger { display: flex; }
 
   .nav-links {
@@ -32,13 +38,15 @@
     border-top: 1px solid var(--glass-border);
     width: 100%;
   }
+}
 
+/* Phones — grids collapse to single column, hero shrinks, modals tighten */
+@media (max-width: 768px) {
   .floating-mew { width: 155px; }
 
   .featured-missions { grid-template-columns: 1fr; }
 
   .projects-grid { grid-template-columns: 1fr; }
-
   /* Remove card tilt on mobile */
   .project-card:nth-child(n) { transform: none; }
 
@@ -49,4 +57,13 @@
 
   .about-card { padding: 1.75rem 1.5rem; }
   .about-facts { grid-template-columns: 1fr; }
+}
+
+/* Small phones (≤420px) — tighten generous paddings so content stops feeling cramped */
+@media (max-width: 420px) {
+  .section { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .floating-mew { width: 130px; }
+  .featured-missions { padding: 1.25rem; }
+  .skill-card { padding: 1.5rem 1.25rem; }
+  .about-card { padding: 1.5rem 1.25rem; }
 }

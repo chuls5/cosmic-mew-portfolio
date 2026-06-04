@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://chuls5.github.io/cosmic-mew-portfolio/sitemap.xml
